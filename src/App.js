@@ -10,7 +10,9 @@ export default class App extends React.Component {
     super();
 
     this.state = {response: null}
-    this.plots = this.vol_plots.bind(this)
+    this.vol_plots = this.vol_plots.bind(this)
+    this.delta_plots = this.delta_plots.bind(this)
+    this.gamma_plots = this.gamma_plots.bind(this)
   }
   
   componentDidMount(){
@@ -38,7 +40,8 @@ export default class App extends React.Component {
               marker: {
                 size: 1,
                 color: 'blue'
-              }
+              },
+              name: 'Call Options'
             },
             {
               x: response['x']['put'][ix],
@@ -49,7 +52,8 @@ export default class App extends React.Component {
               marker: {
                 size: 1,
                 color: 'red'
-              }
+              },
+              name: 'Put Options'
             }]}
             layout={{
               title: 'Implied Volatility for ' + ix,
@@ -70,7 +74,96 @@ export default class App extends React.Component {
     }
     return hold
   }
+
+  delta_plots(){
+    const hold = []
+    const { response } = this.state 
+    if(response != null){
+      response['tickers'].forEach((ix) => {
+        hold.push(
+          <Plot 
+            data={[{
+              x: response['x']['call'][ix],
+              y: response['y']['call'][ix],
+              z: response['delta']['call'][ix],
+              type: 'scatter3d',
+              mode: 'markers',
+              marker: {
+                size: 1,
+                color: 'blue'
+              },
+              name: 'Call Options'
+            },
+            {
+              x: response['x']['put'][ix],
+              y: response['y']['put'][ix],
+              z: response['delta']['put'][ix],
+              type: 'scatter3d',
+              mode: 'markers',
+              marker: {
+                size: 1,
+                color: 'red'
+              },
+              name: 'Put Options'
+            }]}
+            layout={{
+              title: 'Implied Volatility for ' + ix,
+              xaxis: {
+                title: 'Strike Price'
+              },
+              yaxis: {
+                title: 'Expiration'
+              },
+              zaxis: {
+                title: 'Delta'
+              }
+            }}
+          />
+        )
+
+      })
+    }
+    return hold
+  }
   
+  gamma_plots(){
+    const hold = []
+    const { response } = this.state 
+    if(response != null){
+      response['tickers'].forEach((ix) => {
+        hold.push(
+          <Plot 
+            data={[{
+              x: response['x']['call'][ix],
+              y: response['y']['call'][ix],
+              z: response['gamma']['call'][ix],
+              type: 'scatter3d',
+              mode: 'markers',
+              marker: {
+                size: 1,
+                color: 'blue'
+              },
+              name: 'Gamma Plots'
+            }]}
+            layout={{
+              title: 'Gamma for ' + ix,
+              xaxis: {
+                title: 'Strike Price'
+              },
+              yaxis: {
+                title: 'Expiration'
+              },
+              zaxis: {
+                title: 'Gamma'
+              }
+            }}
+          />
+        )
+
+      })
+    }
+    return hold
+  }
   
   render() {
     return (
@@ -80,13 +173,17 @@ export default class App extends React.Component {
             <TabList>
               <Tab>Implied Volatility</Tab>
               <Tab>Delta</Tab>
+              <Tab>Gamma</Tab>
             </TabList>
 
             <TabPanel>
               {this.vol_plots()}
             </TabPanel>
             <TabPanel>
-              <h2>quantfin</h2>
+              {this.delta_plots()}
+            </TabPanel>
+            <TabPanel>
+              {this.gamma_plots()}
             </TabPanel>
           </Tabs>
           </center>

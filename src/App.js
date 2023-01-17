@@ -23,16 +23,26 @@ export default class App extends React.Component {
     const hold = []
     const { response } = this.state 
     if(response != null){
-      hold.push(
-        <Plot 
-          data={[{
-            x: response['x']['AAPL'],
-            y: response['y']['AAPL'],
-            z: response['z']['AAPL'],
-            type: 'scatter3d'
-          }]}
-        />
-      )
+      response['tickers'].forEach((ix) => {
+        hold.push(
+          <Plot 
+            data={[{
+              x: response['x'][ix],
+              y: response['y'][ix],
+              z: response['z'][ix],
+              type: 'scatter3d',
+              mode: 'markers',
+              marker: {
+                size: 1
+              }
+            }]}
+            layout={{
+              title: 'Implied Volatility for ' + ix
+            }}
+          />
+        )
+
+      })
     }
     return hold
   }

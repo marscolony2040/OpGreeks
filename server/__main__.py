@@ -3,6 +3,7 @@ import websockets
 import aiohttp
 import json
 import numpy as np
+import time
 
 def parse_expiry(x):
     return x['optionChain']['result'][0]['expirationDates']
@@ -10,11 +11,15 @@ def parse_expiry(x):
 def parse_call_data(x):
     return x['optionChain']['result'][0]['options'][0]['calls']
 
-
+def dt(x):
+    t0 = int(time.time())
+    dT = x - t0
+    ds = dT/(60*60*24*30)/12
+    return ds
 
 class OpServer:
 
-    def __init__(self, tickers=['AAPL']):
+    def __init__(self, tickers=['SPY','MSFT','GS','MS','JNJ','ORCL','AAPL','GOOGL','NFLX','AMZN']):
         self.tickers = tickers
         self.url = 'https://query2.finance.yahoo.com/v7/finance/options/{}'
         self.url2 = 'https://query2.finance.yahoo.com/v7/finance/options/{}?date={}'
@@ -45,12 +50,12 @@ class OpServer:
             await ws.send(json.dumps(msg))
 
     async def request(self, sess, ticker, mat=False):
-        async with sess.get(self.url.format(ticker) if mat == False else self.url.format(ticker, mat)) as response:
+        async with sess.get(self.url.format(ticker) if mat == False else self.url2.format(ticker, mat)) as response:
             r = await response.text()
             if mat == False:
                 return json.loads(r)
             else:
-                ux, uy, uz = np.array([[float(k['strike']), float(k['expiration'])/1000000000, float(k['impliedVolatility'])] for k in parse_call_data(json.loads(r))]).T.tolist()
+                ux, uy, uz = np.array([[float(k['strike']), dt(float(k['expiration'])), float(k['impliedVolatility'])] for k in parse_call_data(json.loads(r))]).T.tolist()
                 self.x[ticker] += ux
                 self.y[ticker] += uy
                 self.z[ticker] += uz

@@ -1,13 +1,16 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
 export default class App extends React.Component {
   
   constructor(){
     super();
 
     this.state = {response: null}
-    this.plots = this.plots.bind(this)
+    this.plots = this.vol_plots.bind(this)
   }
   
   componentDidMount(){
@@ -19,7 +22,7 @@ export default class App extends React.Component {
     
   }
 
-  plots(){
+  vol_plots(){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -27,17 +30,38 @@ export default class App extends React.Component {
         hold.push(
           <Plot 
             data={[{
-              x: response['x'][ix],
-              y: response['y'][ix],
-              z: response['z'][ix],
+              x: response['x']['call'][ix],
+              y: response['y']['call'][ix],
+              z: response['vol']['call'][ix],
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1
+                size: 1,
+                color: 'blue'
+              }
+            },
+            {
+              x: response['x']['put'][ix],
+              y: response['y']['put'][ix],
+              z: response['vol']['put'][ix],
+              type: 'scatter3d',
+              mode: 'markers',
+              marker: {
+                size: 1,
+                color: 'red'
               }
             }]}
             layout={{
-              title: 'Implied Volatility for ' + ix
+              title: 'Implied Volatility for ' + ix,
+              xaxis: {
+                title: 'Strike Price'
+              },
+              yaxis: {
+                title: 'Expiration'
+              },
+              zaxis: {
+                title: 'Implied Volatility'
+              }
             }}
           />
         )
@@ -51,7 +75,21 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.plots()}
+        <center>
+          <Tabs>
+            <TabList>
+              <Tab>Implied Volatility</Tab>
+              <Tab>Delta</Tab>
+            </TabList>
+
+            <TabPanel>
+              {this.vol_plots()}
+            </TabPanel>
+            <TabPanel>
+              <h2>quantfin</h2>
+            </TabPanel>
+          </Tabs>
+          </center>
       </React.Fragment>
     );
   }

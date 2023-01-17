@@ -63,8 +63,28 @@ class Greeks:
         D2 = self.d2(D1, v, t)
         return (np.exp(-q*t)/(s*v*np.sqrt(t)))*self.N1(D1)
 
-    def Theta(self, s, k, r, q, v, t):
-        pass
+    def Theta(self, s, k, r, q, v, t, optype='call'):
+        D1 = self.d1(s, k, r, q, v, t)
+        D2 = self.d2(D1, v, t)
+        a = -(s*v*np.exp(-q*t))*self.N1(D1)/(2*np.sqrt(t))
+        if optype == 'call':
+            b = r*k*np.exp(-r*t)*self.N(D2) + q*s*np.exp(-q*t)*self.N(D1)
+            return (1/252)*(a - b)
+        else:
+            b = r*k*np.exp(-r*t)*self.N(-D2) - q*s*np.exp(-q*t)*self.N(-D1)
+            return (1/252)*(a + b)
+
+    def Vega(self, s, k, r, q, v, t):
+        D1 = self.d1(s, k, r, q, v, t)
+        return (1/100)*s*np.exp(-q*t)*np.sqrt(t)*self.N1(D1)
+
+    def Rho(self, s, k, r, q, v, t, optype='call'):
+        D1 = self.d1(s, k, r, q, v, t)
+        D2 = self.d2(D1, v, t)
+        if optype == 'call':
+            return (1/100)*k*t*np.exp(-r*t)*self.N(D2)
+        else:
+            return -(1/100)*k*t*np.exp(-r*t)*self.N(-D2)
 
 class OpServer(Greeks):
 
@@ -126,8 +146,19 @@ class OpServer(Greeks):
                         rf = match_rf(mat, self.yields)
                         self.delta[op][tick].append(self.Delta(s, strike, rf, q, vol, mat, optype=op))
                         self.gamma[op][tick].append(self.Gamma(s, strike, rf, q, vol, mat))
-               
-            msg = {'x': self.x, 'y': self.y, 'vol': self.z, 'delta': self.delta, 'gamma': self.gamma, 'tickers': self.tickers}
+                        self.theta[op][tick].append(self.Theta(s, strike, rf, q, vol, mat, optype=op))
+                        self.vega[op][tick].append(self.Vega(s, strike, rf, q, vol, mat))
+                        self.rho[op][tick].append(self.Rho(s, strike, rf, q, vol, mat, optype=op))
+
+            msg = {'x': self.x, 
+                   'y': self.y, 
+                   'vol': self.z, 
+                   'delta': self.delta, 
+                   'gamma': self.gamma,
+                   'theta': self.theta,
+                   'vega': self.vega,
+                   'rho': self.rho, 
+                   'tickers': self.tickers}
             await ws.send(json.dumps(msg))
 
     async def request(self, sess, ticker, mat=False):

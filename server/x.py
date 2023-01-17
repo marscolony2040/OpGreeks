@@ -14,9 +14,14 @@ class Options:
     def go(self):
         loop = asyncio.get_event_loop()
         return loop.run_until_complete(self.opt())
+
+    def house(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(websockets.serve(self.opt, 'localhost', 8080))
+        loop.run_forever()
         
 
-    async def opt(self):
+    async def opt(self, ws, path):
         url = 'https://query2.finance.yahoo.com/v7/finance/options/{}'
         url2 = 'https://query2.finance.yahoo.com/v7/finance/options/{}?date={}'
 
@@ -37,7 +42,7 @@ class Options:
             for i in r['optionChain']['result'][0]['options'][0]['calls']:
                 strike = i['strike']
                 iv = i['impliedVolatility']
-                hold[ex][strike] = iv
+                hold[ex][strike] = float(iv)
 
         xx, yy = np.meshgrid(strikes, expiration)
         zz = []
@@ -46,15 +51,18 @@ class Options:
             for j in range(len(xx[0])):
                 temp.append(hold[yy[i][j]][xx[i][j]])
             zz.append(temp)
-        return xx, yy, np.array(zz)
+        xx, yy = xx.tolist(), yy.tolist()
             
-        
+        await ws.send(json.dumps({'x':xx, 'y':yy, 'z': zz}))
 
 
-xm, ym, zm = Options().go()
+Options().house()
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-fig.tight_layout()
-ax.scatter(xm, ym, zm, color='red')
-plt.show()
+on = False
+if on:
+    xm, ym, zm = Options().go()
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    fig.tight_layout()
+    ax.scatter(xm, ym, zm, color='red')
+    plt.show()

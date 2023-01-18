@@ -184,12 +184,14 @@ class OpServer(Greeks):
                         self.theta[op][tick] = []
                         self.vega[op][tick] = []
                         self.rho[op][tick] = []
+                        await asyncio.sleep(0.1)
                         
                 
                 # Fetch all data
                 for tick in self.tickers:
                     for i in self.expire[tick]:
                         await self.request(sess, tick, mat=i)
+                        await asyncio.sleep(0.5)
 
                 # Solve for the greeks
                 for op in ('call', 'put'):
@@ -235,7 +237,7 @@ class OpServer(Greeks):
                     self.x[op][ticker] += ux
                     self.y[op][ticker] += uy
                     self.z[op][ticker] += uz
-                await asyncio.sleep(0.1)
+                
             
 
                 

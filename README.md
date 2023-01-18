@@ -12,3 +12,5 @@ This apps payload is very heavy and will require lots of requests. I would advis
 ## Visual
 ![alt](https://github.com/marscolony2040/OpGreeks/blob/main/images/front.png)
 
+## Explination
+Using the options greek formulas I found on https://www.macroption.com/option-greeks-excel/ I was able to calculate them by inputting the appropriate variables. For the risk free rate I created a list full of the latest treasury rates and matched their maturities with the options expiration dates. Initially the options expiration dates came in timestamp form but I managed to convert it into month/year format. Additionally I imported Implied Volatilities and Dividend Yields to input into the formulas.

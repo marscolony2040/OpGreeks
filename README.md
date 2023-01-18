@@ -1,6 +1,4 @@
 # Options Greeks Visualizer
-<br/>
-<br/>
 
 ## Instructions
 In order to get this program running you will need to have NPM and React.js installed (there are many tutorials online for installing on the Windows, Mac, or Linux). Additionally you will need the python libraries aiohttp, websockets, numpy, and scipy installed.

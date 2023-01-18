@@ -1,5 +1,8 @@
 # Options Greeks Visualizer
 
+## Disclaimer
+This program is not designed to be used for trading purposes. It is purely a mathematical parody. The reason why I say this is because the options being imported are American Options and the formulas being used are European Greeks. Simply they are not compatible. You may however pick up greek patterns and compare them to the inputted stocks but remember I am not responsible if you choose to use this application to make trades with. It is not designed for real-time trading.
+
 ## Instructions
 In order to get this program running you will need to have NPM and React.js installed (there are many tutorials online for installing on the Windows, Mac, or Linux). Additionally you will need the python libraries aiohttp, websockets, numpy, and scipy installed.
 

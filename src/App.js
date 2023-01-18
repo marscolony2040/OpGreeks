@@ -4,18 +4,26 @@ import Plot from 'react-plotly.js';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
+import go from './imgs/go.png'
+import title from './imgs/tx.png'
+
 export default class App extends React.Component {
   
   constructor(){
     super();
 
-    this.state = {response: null, N: 0, sock: null}
+    this.state = {response: null, N: 0, tickers: {}, sock: null}
     this.vol_plots = this.vol_plots.bind(this)
     this.delta_plots = this.delta_plots.bind(this)
     this.gamma_plots = this.gamma_plots.bind(this)
     this.theta_plots = this.theta_plots.bind(this)
     this.vega_plots = this.vega_plots.bind(this)
     this.rho_plots = this.rho_plots.bind(this)
+
+    this.handle_change = this.handle_change.bind(this)
+    this.handle_submit = this.handle_submit.bind(this)
+    this.build_ticks = this.build_ticks.bind(this)
+    this.change_tick = this.change_tick.bind(this)
   }
   
   componentDidMount(){
@@ -25,6 +33,39 @@ export default class App extends React.Component {
       this.setState({ response: JSON.parse(evt.data) })
     }
     this.setState({ sock: socket })
+  }
+
+  handle_change(evt){
+    this.setState({ [evt.target.name] : parseInt(evt.target.value) })
+  }
+
+  change_tick(evt){
+    const { tickers } = this.state
+    tickers[evt.target.name] = evt.target.value
+    this.setState({ tickers: tickers })
+  }
+
+  handle_submit(evt){
+    const { N, tickers, sock } = this.state
+    var tick = {}
+    for(var i = 0; i < N; i++){
+      const namex = "S" + i.toString()
+      tick[namex] = tickers[namex]
+    }
+    sock.send(JSON.stringify(tick))
+    evt.preventDefault()
+  }
+
+  build_ticks(){
+    const { N } = this.state
+    const hold = []
+    for(var i = 0; i < N; i++){
+      const namex = "S" + i.toString()
+      hold.push(
+        <input name={namex} type="text" onChange={this.change_tick} style={{width: 100, fontSize: 16, textAlign: "center"}}/>
+      )
+    }
+    return hold
   }
 
   vol_plots(){
@@ -110,7 +151,7 @@ export default class App extends React.Component {
               name: 'Put Options'
             }]}
             layout={{
-              title: 'Implied Volatility for ' + ix,
+              title: 'Delta for ' + ix,
               xaxis: {
                 title: 'Strike Price'
               },
@@ -312,6 +353,17 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <center>
+          <img src={title} style={{width: 1000, height: 100}} />
+          <div style={{fontSize: 18}}>Number of Stocks</div>
+          <br/>
+          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{width: 100, fontSize: 18, textAlign: "center"}}/></div>
+          <br/>
+          <div>{this.build_ticks()}</div>
+          <br/>
+          <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 80}}></img>
+          <br/>
+        </center>
         <center>
           <Tabs>
             <TabList>

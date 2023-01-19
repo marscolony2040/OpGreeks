@@ -152,7 +152,7 @@ class OpServer(Greeks):
         
     def start(self):
         loop = asyncio.get_event_loop()
-        serve = websockets.serve(self.serving, 'localhost', 8080)
+        serve = websockets.serve(self.serving, '0.0.0.0', 8080)
         loop.run_until_complete(serve)
         loop.run_forever()
 

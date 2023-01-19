@@ -77,17 +77,13 @@ class Misc:
         n = len(self.x[op][tick])
         m0 = float(np.max(price*0.5, 0))
         m1 = price*1.5
-        delete_stuff = []
-        for i in range(n):
-            if self.x[op][tick][i] < m0 or self.x[op][tick][i] > m1:
-                delete_stuff.append(i)
-        for i in delete_stuff:
-            try:
-                del self.x[op][tick][i]
-                del self.y[op][tick][i]
-                del self.z[op][tick][i]
-            except: 
-                pass
+        strike, mat, vol = [], [], []
+        for ix, iy, iz in zip(self.x[op][tick], self.y[op][tick], self.z[op][tick]):
+            if ix >= m0 and ix <= m1:
+                strike.append(ix)
+                mat.append(iy)
+                vol.append(iz)
+        return strike, mat, vol
             
 
 
@@ -218,6 +214,8 @@ class OpServer(Greeks):
                     for tick in self.tickers:
                         s = self.stock_price[tick]
                         q = self.dividend[tick]
+
+                        self.x[op][tick], self.y[op][tick], self.z[op][tick] = self.strike_filter(tick, op, s)
                         
                         for strike, mat, vol in zip(self.x[op][tick], self.y[op][tick], self.z[op][tick]):
                             rf = match_rf(mat, self.yields)
@@ -263,3 +261,4 @@ class OpServer(Greeks):
                 
     
 OpServer().start()
+#OpServer().testing()

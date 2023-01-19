@@ -56,19 +56,19 @@ export default class App extends React.Component {
     evt.preventDefault()
   }
 
-  build_ticks(){
+  build_ticks(bg, fg, fg2){
     const { N } = this.state
     const hold = []
     for(var i = 0; i < N; i++){
       const namex = "S" + i.toString()
       hold.push(
-        <input name={namex} type="text" onChange={this.change_tick} style={{width: 100, fontSize: 16, textAlign: "center"}}/>
+        <input name={namex} type="text" onChange={this.change_tick} style={{backgroundColor: fg, color: fg2, width: 100, fontSize: 23, textAlign: "center"}}/>
       )
     }
     return hold
   }
 
-  vol_plots(){
+  vol_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -83,7 +83,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'pink'
               },
               name: 'Call Options'
             },
@@ -95,20 +95,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'red'
+                color: 'yellow'
               },
               name: 'Put Options'
             }]}
             layout={{
-              title: 'Implied Volatility for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Implied Volatility for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Implied Volatility'
+              paper_bgcolor: bg,
+              plot_bgcolor: bg,
+              scene: {
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Implied Volatility',
+                  color: fg
+                }
               }
             }}
           />
@@ -119,7 +131,7 @@ export default class App extends React.Component {
     return hold
   }
 
-  delta_plots(){
+  delta_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -134,7 +146,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'pink'
               },
               name: 'Call Options'
             },
@@ -146,20 +158,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'red'
+                color: 'yellow'
               },
               name: 'Put Options'
             }]}
             layout={{
-              title: 'Delta for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Delta for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Delta'
+              paper_bgcolor: bg,
+              plot_bgcolor: bg,
+              scene: {
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Delta',
+                  color: fg
+                }
               }
             }}
           />
@@ -170,7 +194,7 @@ export default class App extends React.Component {
     return hold
   }
   
-  gamma_plots(){
+  gamma_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -185,20 +209,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'pink'
               },
               name: 'Gamma Plots'
             }]}
             layout={{
-              title: 'Gamma for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Gamma for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Gamma'
+              paper_bgcolor: bg,
+              plot_bgcolor: bg,
+              scene:{
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Gamma',
+                  color: fg
+                }
               }
             }}
           />
@@ -209,7 +245,7 @@ export default class App extends React.Component {
     return hold
   }
   
-  theta_plots(){
+  theta_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -224,7 +260,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'pink'
               },
               name: 'Call Options'
             },
@@ -236,20 +272,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'red'
+                color: 'yellow'
               },
               name: 'Put Options'
             }]}
             layout={{
-              title: 'Theta for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Theta for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Theta'
+              paper_bgcolor: bg,
+              plot_bgcolor: bg,
+              scene: {
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Theta',
+                  color: fg
+                }
               }
             }}
           />
@@ -260,7 +308,7 @@ export default class App extends React.Component {
     return hold
   }
 
-  vega_plots(){
+  vega_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -275,20 +323,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'yellow'
               },
               name: 'Vega Plots'
             }]}
             layout={{
-              title: 'Vega for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Vega for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Vega'
+              paper_bgcolor: bg,
+              plot_bgcolor: fg,
+              scene: {
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Vega',
+                  color: fg
+                }
               }
             }}
           />
@@ -299,7 +359,7 @@ export default class App extends React.Component {
     return hold
   }
 
-  rho_plots(){
+  rho_plots(bg, fg){
     const hold = []
     const { response } = this.state 
     if(response != null){
@@ -314,7 +374,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'blue'
+                color: 'yellow'
               },
               name: 'Call Options'
             },
@@ -326,20 +386,32 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 1,
-                color: 'red'
+                color: 'pink'
               },
               name: 'Put Options'
             }]}
             layout={{
-              title: 'Rho for ' + ix,
-              xaxis: {
-                title: 'Strike Price'
+              title: {
+                text: 'Rho for ' + ix,
+                font: {
+                  color: fg
+                }
               },
-              yaxis: {
-                title: 'Expiration'
-              },
-              zaxis: {
-                title: 'Rho'
+              paper_bgcolor: bg,
+              plot_bgcolor: fg,
+              scene:{
+                xaxis: {
+                  title: 'Strike Price',
+                  color: fg
+                },
+                yaxis: {
+                  title: 'Expiration',
+                  color: fg
+                },
+                zaxis: {
+                  title: 'Rho',
+                  color: fg
+                }
               }
             }}
           />
@@ -351,21 +423,27 @@ export default class App extends React.Component {
   }
 
   render() {
+
+    const bg = 'black'
+    const fg = 'red'
+    const fg2 = 'white'
+
+
     return (
       <React.Fragment>
         <center>
           <img src={title} style={{width: 1000, height: 100}} />
-          <div style={{fontSize: 18}}>Number of Stocks</div>
+          <div style={{backgroundColor: bg, color: fg, fontSize: 25}}>Number of Stocks</div>
           <br/>
-          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{width: 100, fontSize: 18, textAlign: "center"}}/></div>
+          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: fg2, width: 100, fontSize: 23, textAlign: "center"}}/></div>
           <br/>
-          <div>{this.build_ticks()}</div>
+          <div>{this.build_ticks(bg, fg, fg2)}</div>
           <br/>
           <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 80}}></img>
           <br/>
         </center>
         <center>
-          <Tabs>
+          <Tabs style={{backgroundColor: bg, color: fg, fontSize: 25}}>
             <TabList>
               <Tab>Implied Volatility</Tab>
               <Tab>Delta</Tab>
@@ -376,22 +454,22 @@ export default class App extends React.Component {
             </TabList>
 
             <TabPanel>
-              {this.vol_plots()}
+              {this.vol_plots(bg, fg)}
             </TabPanel>
             <TabPanel>
-              {this.delta_plots()}
+              {this.delta_plots(bg, fg)}
             </TabPanel>
             <TabPanel>
-              {this.gamma_plots()}
+              {this.gamma_plots(bg, fg)}
             </TabPanel>
             <TabPanel>
-              {this.theta_plots()}
+              {this.theta_plots(bg, fg)}
             </TabPanel>
             <TabPanel>
-              {this.vega_plots()}
+              {this.vega_plots(bg, fg)}
             </TabPanel>
             <TabPanel>
-              {this.rho_plots()}
+              {this.rho_plots(bg, fg)}
             </TabPanel>
           </Tabs>
           </center>

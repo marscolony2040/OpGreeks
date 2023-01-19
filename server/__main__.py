@@ -71,7 +71,27 @@ def opp_err(f):
             return 0
     return g
 
-class Greeks:
+class Misc:
+
+    def strike_filter(self, tick, op, price):
+        n = len(self.x[op][tick])
+        m0 = float(np.max(price*0.5, 0))
+        m1 = price*1.5
+        delete_stuff = []
+        for i in range(n):
+            if self.x[op][tick][i] < m0 or self.x[op][tick][i] > m1:
+                delete_stuff.append(i)
+        for i in delete_stuff:
+            try:
+                del self.x[op][tick][i]
+                del self.y[op][tick][i]
+                del self.z[op][tick][i]
+            except: 
+                pass
+            
+
+
+class Greeks(Misc):
 
     def d2(self, d1, v, t):
         return d1 - v*np.sqrt(t)

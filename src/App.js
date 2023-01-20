@@ -106,6 +106,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: bg,
               scene: {
@@ -169,6 +170,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: bg,
               scene: {
@@ -220,6 +222,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: bg,
               scene:{
@@ -283,6 +286,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: bg,
               scene: {
@@ -334,6 +338,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: fg,
               scene: {
@@ -397,6 +402,7 @@ export default class App extends React.Component {
                   color: fg
                 }
               },
+              showlegend: false,
               paper_bgcolor: bg,
               plot_bgcolor: fg,
               scene:{
@@ -440,6 +446,14 @@ export default class App extends React.Component {
           <div>{this.build_ticks(bg, fg, fg2)}</div>
           <br/>
           <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 80}}></img>
+          <br/>
+        </center>
+        <center>
+          <br/>
+          <tr>
+            <td style={{backgroundColor: bg, color: 'pink', fontSize: 20}}>Call Options</td>&nbsp;&nbsp;
+            <td style={{backgroundColor: bg, color: 'yellow', fontSize: 20}}>Put Options</td>
+          </tr>
           <br/>
         </center>
         <center>

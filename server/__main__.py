@@ -94,7 +94,7 @@ class Misc:
             value = self.gamma[op][tick][i]
             z_score = (value - mu)/sd
             prob = norm.cdf(z_score)
-            if prob <= 0.8:
+            if prob <= 0.8 and value <= 1:
                 hold.append(value)
             else:
                 hold.append(0)

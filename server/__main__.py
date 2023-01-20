@@ -119,7 +119,11 @@ class Greeks(Misc):
         g = s*v*np.sqrt(t)
         if g <= pow(10, -4):
             return 0
-        return (np.exp(-q*t)/(g))*self.N1(D1)
+        dg = (np.exp(-q*t)/g)*self.N1(D1)
+        if dg > 3:
+            return 0
+        else:
+            return dg
 
     def Theta(self, s, k, r, q, v, t, optype='call'):
         D1 = self.d1(s, k, r, q, v, t)
@@ -130,10 +134,18 @@ class Greeks(Misc):
         a = -(s*v*np.exp(-q*t))*self.N1(D1)/z
         if optype == 'call':
             b = r*k*np.exp(-r*t)*self.N(D2) + q*s*np.exp(-q*t)*self.N(D1)
-            return (1/252)*(a - b)
+            dg = (1/252)*(a - b)
+            if dg < -6:
+                return 0
+            else: 
+                return dg
         else:
             b = r*k*np.exp(-r*t)*self.N(-D2) - q*s*np.exp(-q*t)*self.N(-D1)
-            return (1/252)*(a + b)
+            dg = (1/252)*(a + b)
+            if dg < -6:
+                return 0
+            else:
+                return dg
 
     def Vega(self, s, k, r, q, v, t):
         D1 = self.d1(s, k, r, q, v, t)

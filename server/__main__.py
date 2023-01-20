@@ -84,7 +84,37 @@ class Misc:
                 mat.append(iy)
                 vol.append(iz)
         return strike, mat, vol
-            
+    
+    def gamma_filter(self, tick, op):
+        n = len(self.gamma[op][tick])
+        mu = np.mean(self.gamma[op][tick])
+        sd = np.std(self.gamma[op][tick])
+        hold = []
+        for i in range(n):
+            value = self.gamma[op][tick][i]
+            z_score = (value - mu)/sd
+            prob = norm.cdf(z_score)
+            if prob <= 0.8:
+                hold.append(value)
+            else:
+                hold.append(0)
+        return hold
+
+    def theta_filter(self, tick, op):
+        n = len(self.theta[op][tick])
+        mu = np.mean(self.theta[op][tick])
+        sd = np.std(self.theta[op][tick])
+        hold = []
+        for i in range(n):
+            value = self.theta[op][tick][i]
+            z_score = (value - mu)/sd
+            prob = norm.cdf(z_score)
+            if prob >= 0.2:
+                hold.append(value)
+            else:
+                hold.append(0)
+        return hold
+
 
 
 class Greeks(Misc):
@@ -120,10 +150,7 @@ class Greeks(Misc):
         if g <= pow(10, -4):
             return 0
         dg = (np.exp(-q*t)/g)*self.N1(D1)
-        if dg > 3:
-            return 0
-        else:
-            return dg
+        return dg
 
     def Theta(self, s, k, r, q, v, t, optype='call'):
         D1 = self.d1(s, k, r, q, v, t)
@@ -135,17 +162,11 @@ class Greeks(Misc):
         if optype == 'call':
             b = r*k*np.exp(-r*t)*self.N(D2) + q*s*np.exp(-q*t)*self.N(D1)
             dg = (1/252)*(a - b)
-            if dg < -6:
-                return 0
-            else: 
-                return dg
+            return dg
         else:
             b = r*k*np.exp(-r*t)*self.N(-D2) - q*s*np.exp(-q*t)*self.N(-D1)
             dg = (1/252)*(a + b)
-            if dg < -6:
-                return 0
-            else:
-                return dg
+            return dg
 
     def Vega(self, s, k, r, q, v, t):
         D1 = self.d1(s, k, r, q, v, t)
@@ -237,7 +258,9 @@ class OpServer(Greeks):
                             self.theta[op][tick].append(self.Theta(s, strike, rf, q, vol, mat, optype=op))
                             self.vega[op][tick].append(self.Vega(s, strike, rf, q, vol, mat))
                             self.rho[op][tick].append(self.Rho(s, strike, rf, q, vol, mat, optype=op))     
-                            
+                        
+                        self.gamma[op][tick] = self.gamma_filter(tick, op)
+                        self.theta[op][tick] = self.theta_filter(tick, op)
                                 
                 # Final Message to send to client
                 msg = {'x': self.x, 

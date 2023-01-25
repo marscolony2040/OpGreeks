@@ -237,10 +237,16 @@ class OpServer(Greeks):
                         
                 
                 # Fetch all data
-                for tick in self.tickers:
-                    for i in self.expire[tick]:
-                        await self.request(sess, tick, mat=i)
-                        await asyncio.sleep(0.5)
+
+                slow = False
+
+                if slow == True:
+                    for tick in self.tickers:
+                        for i in self.expire[tick]:
+                            await self.request(sess, tick, mat=i)
+                            await asyncio.sleep(0.5)
+                else:
+                    await asyncio.wait([asyncio.ensure_future(self.request(sess, tick, mat=mat)) for mat in self.expire[tick] for tick in self.tickers])
 
                 # Solve for the greeks
                 for op in ('call', 'put'):

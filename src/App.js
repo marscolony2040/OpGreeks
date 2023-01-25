@@ -112,15 +112,18 @@ export default class App extends React.Component {
               scene: {
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Implied Volatility',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}
@@ -176,15 +179,18 @@ export default class App extends React.Component {
               scene: {
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Delta',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}
@@ -228,15 +234,18 @@ export default class App extends React.Component {
               scene:{
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Gamma',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}
@@ -292,15 +301,18 @@ export default class App extends React.Component {
               scene: {
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Theta',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}
@@ -344,15 +356,18 @@ export default class App extends React.Component {
               scene: {
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Vega',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}
@@ -408,15 +423,18 @@ export default class App extends React.Component {
               scene:{
                 xaxis: {
                   title: 'Strike Price',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 yaxis: {
                   title: 'Expiration',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 },
                 zaxis: {
                   title: 'Rho',
-                  color: fg
+                  color: fg,
+                  showgrid: false
                 }
               }
             }}

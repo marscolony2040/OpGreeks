@@ -6,6 +6,9 @@ This program is not designed to be used for trading purposes. It is purely a mat
 ## Live View
 ![alt](https://github.com/marscolony2040/OpGreeks/blob/main/images/algo.gif)
 
+## Snapshot
+![alt](https://github.com/marscolony2040/OpGreeks/blob/main/images/runner.png)
+
 ## Instructions
 In order to get this program running you will need to have NPM and React.js installed (there are many tutorials online for installing on the Windows, Mac, or Linux). Additionally you will need the python libraries aiohttp, websockets, numpy, and scipy installed.
 

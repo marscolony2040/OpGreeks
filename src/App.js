@@ -113,12 +113,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Implied Volatility',
@@ -180,12 +182,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Delta',
@@ -235,12 +239,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Gamma',
@@ -302,12 +308,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Theta',
@@ -357,12 +365,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Vega',
@@ -424,12 +434,14 @@ export default class App extends React.Component {
                 xaxis: {
                   title: 'Strike Price',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 yaxis: {
                   title: 'Expiration',
                   color: fg,
-                  showgrid: false
+                  showgrid: false,
+                  autorange: 'reversed'
                 },
                 zaxis: {
                   title: 'Rho',

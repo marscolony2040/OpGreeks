@@ -15,9 +15,11 @@ To run this app you need to navigate to its root directly and open two terminals
 ## Rate Limits
 This apps payload is very heavy and will require lots of requests. I would advise you to use a max of three to five stocks in the visualizer as to not get ratelimited.
 
-## Explination
-Using the options greek formulas I found on https://www.macroption.com/option-greeks-excel/ I was able to calculate them by inputting the appropriate variables. 
-
-The variables for each greek are S=StockPrice, K=StrikePrice, r=RiskFreeRate, q=Dividend, v=Volatility, and t=Expiration. The stock price and dividend rate was imported using the quote portion of the Options Chain API. The strike price, volatility, and expiration were all imported from the options section of the Options Chain API. The Risk Free Rate was imported by inputting the Treasury Yield Curve rates manually into a list and matching the maturity date of the bond with the options expiration date. Overall this was a fun mathematical visualization that I have created using these brilliant formulas.
-
+## Programs Methods
+1. Sends a request to fetch the latest Treasury Yields to be used as the risk free rates
+2. Recieves a list of tickers to fetch for the visualization
+3. Fetches options chain data in order to extract the expirations list
+4. Sends mass asynchronus request to get all of the options data
+5. Implied volatility and expiry are then used to match the correct treasury rate to the calculations by matching expiry dates
+6. Additionally the dividend yield is imported as well and all of the inputs are pushed through the greek equations.
 

@@ -5,7 +5,7 @@ import json
 import numpy as np
 import time
 from scipy.stats import norm
-from scipy.special import logsumexp
+from yields import risk_free_rates
 
 # Extracts Tickers
 def extract_ticks(f):
@@ -25,7 +25,7 @@ def cleanup(x):
 
 # Parses Options Expiration Dates
 def parse_expiry(x):
-    return x['optionChain']['result'][0]['expirationDates'][:10]
+    return x['optionChain']['result'][0]['expirationDates']
 
 # Parses Stocks Dividend Rate
 def parse_dividend(x):
@@ -197,7 +197,6 @@ class OpServer(Greeks):
         self.theta = {'call':{}, 'put':{}}
         self.vega = {'call':{}, 'put':{}}
         self.rho = {'call':{}, 'put':{}}
-        self.yields = {'mat':[1/12,2/12,3/12,4/12,6/12,12/12,24/12,36/12,60/12,84/12,120/12,240/12,360/12], 'yield': [0.0458,0.0459,0.0467,0.0473,0.0477,0.0469,0.0422,0.0388,0.036,0.0355,0.0349,0.0379,0.0361]}
         
     def start(self):
         loop = asyncio.get_event_loop()
@@ -212,6 +211,11 @@ class OpServer(Greeks):
 
     async def serving(self, ws, path):
         async with aiohttp.ClientSession() as sess:
+            
+            # Fetch treasury rates
+            t_rates = await risk_free_rates(sess, 2023)
+            self.yields = {'mat':[1/12,2/12,3/12,4/12,6/12,12/12,24/12,36/12,60/12,84/12,120/12,240/12,360/12], 'yield': t_rates}
+            
             while True:
                 # Fetch Initial Tickers
                 resp = await ws.recv()

@@ -62,7 +62,7 @@ export default class App extends React.Component {
     for(var i = 0; i < N; i++){
       const namex = "S" + i.toString()
       hold.push(
-        <input name={namex} type="text" onChange={this.change_tick} style={{backgroundColor: fg, color: fg2, width: 100, fontSize: 23, textAlign: "center"}}/>
+        <input name={namex} type="text" onChange={this.change_tick} style={{backgroundColor: fg, color: 'cyan', width: 100, fontSize: 23, textAlign: "center"}}/>
       )
     }
     return hold
@@ -82,8 +82,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'pink'
+                size: 2,
+                color: 'red'
               },
               name: 'Call Options'
             },
@@ -94,8 +94,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'yellow'
+                size: 2,
+                color: 'limegreen'
               },
               name: 'Put Options'
             }]}
@@ -151,8 +151,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'pink'
+                size: 2,
+                color: 'red'
               },
               name: 'Call Options'
             },
@@ -163,8 +163,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'yellow'
+                size: 2,
+                color: 'limegreen'
               },
               name: 'Put Options'
             }]}
@@ -220,8 +220,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'pink'
+                size: 2,
+                color: 'red'
               },
               name: 'Gamma Plots'
             }]}
@@ -277,8 +277,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'pink'
+                size: 2,
+                color: 'red'
               },
               name: 'Call Options'
             },
@@ -289,8 +289,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'yellow'
+                size: 2,
+                color: 'limegreen'
               },
               name: 'Put Options'
             }]}
@@ -346,8 +346,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'yellow'
+                size: 2,
+                color: 'limegreen'
               },
               name: 'Vega Plots'
             }]}
@@ -403,8 +403,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'yellow'
+                size: 2,
+                color: 'limegreen'
               },
               name: 'Call Options'
             },
@@ -415,8 +415,8 @@ export default class App extends React.Component {
               type: 'scatter3d',
               mode: 'markers',
               marker: {
-                size: 1,
-                color: 'pink'
+                size: 2,
+                color: 'red'
               },
               name: 'Put Options'
             }]}
@@ -460,9 +460,9 @@ export default class App extends React.Component {
 
   render() {
 
-    const bg = 'black'
-    const fg = 'red'
-    const fg2 = 'white'
+    const bg = 'white'
+    const fg = 'blue'
+    const fg2 = 'black'
 
 
     return (
@@ -471,7 +471,7 @@ export default class App extends React.Component {
           <img src={title} style={{width: 1000, height: 100}} />
           <div style={{backgroundColor: bg, color: fg, fontSize: 25}}>Number of Stocks</div>
           <br/>
-          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: fg2, width: 100, fontSize: 23, textAlign: "center"}}/></div>
+          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: 'cyan', width: 100, fontSize: 23, textAlign: "center"}}/></div>
           <br/>
           <div>{this.build_ticks(bg, fg, fg2)}</div>
           <br/>
@@ -481,8 +481,8 @@ export default class App extends React.Component {
         <center>
           <br/>
           <tr>
-            <td style={{backgroundColor: bg, color: 'pink', fontSize: 20}}>Call Options</td>&nbsp;&nbsp;
-            <td style={{backgroundColor: bg, color: 'yellow', fontSize: 20}}>Put Options</td>
+            <td style={{backgroundColor: bg, color: 'red', fontSize: 20}}>Call Options</td>&nbsp;&nbsp;
+            <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 20}}>Put Options</td>
           </tr>
           <br/>
         </center>

@@ -94,7 +94,7 @@ class Misc:
             value = self.gamma[op][tick][i]
             z_score = (value - mu)/sd
             prob = norm.cdf(z_score)
-            if prob <= 0.8:
+            if value <= 1.0:
                 hold.append(value)
             else:
                 hold.append(0)
@@ -210,7 +210,7 @@ class OpServer(Greeks):
 
 
     async def serving(self, ws, path):
-        async with aiohttp.ClientSession() as sess:
+        async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as sess:
             
             # Fetch treasury rates
             t_rates = await risk_free_rates(sess, 2023)

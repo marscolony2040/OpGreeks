@@ -118,70 +118,7 @@ class Misc:
 
 
 
-class Greeks(Misc):
-
-    def d2(self, d1, v, t):
-        return d1 - v*np.sqrt(t)
-
-    def d1(self, s, k, r, q, v, t):
-        A = np.log(s/k) + (r - q + 0.5*v**2)*t
-        B = v*np.sqrt(t)
-        if B <= pow(10,-4):
-            return 0
-        return A / B
-
-    def N(self, x):
-        return norm.cdf(x)
-
-    def N1(self, x):
-        return norm.pdf(x)
-
-    def Delta(self, s, k, r, q, v, t, optype='call'):
-        D1 = self.d1(s, k, r, q, v, t)
-        D2 = self.d2(D1, v, t)
-        if optype == 'call':
-            return np.exp(-q*t)*self.N(D1)
-        else:
-            return np.exp(-q*t)*(self.N(D1) - 1)
-
-    def Gamma(self, s, k, r, q, v, t):
-        D1 = self.d1(s, k, r, q, v, t)
-        D2 = self.d2(D1, v, t)
-        g = s*v*np.sqrt(t)
-        if g <= pow(10, -4):
-            return 0
-        dg = (np.exp(-q*t)/g)*self.N1(D1)
-        return dg
-
-    def Theta(self, s, k, r, q, v, t, optype='call'):
-        D1 = self.d1(s, k, r, q, v, t)
-        D2 = self.d2(D1, v, t)
-        z = 2*np.sqrt(t)
-        if z <= pow(10,-4):
-            return 0
-        a = -(s*v*np.exp(-q*t))*self.N1(D1)/z
-        if optype == 'call':
-            b = r*k*np.exp(-r*t)*self.N(D2) + q*s*np.exp(-q*t)*self.N(D1)
-            dg = (1/252)*(a - b)
-            return dg
-        else:
-            b = r*k*np.exp(-r*t)*self.N(-D2) - q*s*np.exp(-q*t)*self.N(-D1)
-            dg = (1/252)*(a + b)
-            return dg
-
-    def Vega(self, s, k, r, q, v, t):
-        D1 = self.d1(s, k, r, q, v, t)
-        return (1/100)*s*np.exp(-q*t)*np.sqrt(t)*self.N1(D1)
-
-    def Rho(self, s, k, r, q, v, t, optype='call'):
-        D1 = self.d1(s, k, r, q, v, t)
-        D2 = self.d2(D1, v, t)
-        if optype == 'call':
-            return (1/100)*k*t*np.exp(-r*t)*self.N(D2)
-        else:
-            return -(1/100)*k*t*np.exp(-r*t)*self.N(-D2)
-
-class OpServer(Greeks):
+class OpServer(Misc):
 
     def __init__(self, tickers=['SPY','MSFT']):
         self.tickers = tickers

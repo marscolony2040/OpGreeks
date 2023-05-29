@@ -6,6 +6,7 @@ import numpy as np
 import time
 from scipy.stats import norm
 from yields import risk_free_rates
+from greek import Greeks as GZ
 
 # Extracts Tickers
 def extract_ticks(f):
@@ -210,6 +211,7 @@ class OpServer(Greeks):
 
 
     async def serving(self, ws, path):
+        print("Booted Server..............")
         async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as sess:
             
             # Fetch treasury rates
@@ -263,14 +265,22 @@ class OpServer(Greeks):
                         for strike, mat, vol in zip(self.x[op][tick], self.y[op][tick], self.z[op][tick]):
                             rf = match_rf(mat, self.yields)
                             
-                            self.delta[op][tick].append(self.Delta(s, strike, rf, q, vol, mat, optype=op))
-                            self.gamma[op][tick].append(self.Gamma(s, strike, rf, q, vol, mat))
-                            self.theta[op][tick].append(self.Theta(s, strike, rf, q, vol, mat, optype=op))
-                            self.vega[op][tick].append(self.Vega(s, strike, rf, q, vol, mat))
-                            self.rho[op][tick].append(self.Rho(s, strike, rf, q, vol, mat, optype=op))     
+                            delta, gamma, theta, vega, rho = GZ(s, strike, rf, q, vol, mat, op)
+                            self.delta[op][tick].append(delta)
+                            self.gamma[op][tick].append(gamma)
+                            self.theta[op][tick].append(theta)
+                            self.vega[op][tick].append(vega)
+                            self.rho[op][tick].append(rho)
+
+
+                            #self.delta[op][tick].append(self.Delta(s, strike, rf, q, vol, mat, optype=op))
+                            #self.gamma[op][tick].append(self.Gamma(s, strike, rf, q, vol, mat))
+                            #self.theta[op][tick].append(self.Theta(s, strike, rf, q, vol, mat, optype=op))
+                            #self.vega[op][tick].append(self.Vega(s, strike, rf, q, vol, mat))
+                            #self.rho[op][tick].append(self.Rho(s, strike, rf, q, vol, mat, optype=op))     
                         
-                        self.gamma[op][tick] = self.gamma_filter(tick, op)
-                        self.theta[op][tick] = self.theta_filter(tick, op)
+                        #self.gamma[op][tick] = self.gamma_filter(tick, op)
+                        #self.theta[op][tick] = self.theta_filter(tick, op)
                                 
                 # Final Message to send to client
                 msg = {'x': self.x, 

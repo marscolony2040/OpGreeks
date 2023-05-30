@@ -199,7 +199,7 @@ class OpServer(Misc):
 
                         self.x[op][tick], self.y[op][tick], self.z[op][tick] = self.strike_filter(tick, op, s)
                         
-                        for strike, mat, vol in zip(self.x[op][tick], self.y[op][tick], self.z[op][tick]):
+                        for ii, (strike, mat, vol) in enumerate(zip(self.x[op][tick], self.y[op][tick], self.z[op][tick])):
                             rf = match_rf(mat, self.yields)
                             
                             delta, gamma, theta, vega, rho = GZ(s, strike, rf, q, vol, mat, op)
@@ -209,15 +209,8 @@ class OpServer(Misc):
                             self.vega[op][tick].append(vega)
                             self.rho[op][tick].append(rho)
 
-
-                            #self.delta[op][tick].append(self.Delta(s, strike, rf, q, vol, mat, optype=op))
-                            #self.gamma[op][tick].append(self.Gamma(s, strike, rf, q, vol, mat))
-                            #self.theta[op][tick].append(self.Theta(s, strike, rf, q, vol, mat, optype=op))
-                            #self.vega[op][tick].append(self.Vega(s, strike, rf, q, vol, mat))
-                            #self.rho[op][tick].append(self.Rho(s, strike, rf, q, vol, mat, optype=op))     
-                        
-                        #self.gamma[op][tick] = self.gamma_filter(tick, op)
-                        #self.theta[op][tick] = self.theta_filter(tick, op)
+                            title = f'Parsing {tick} for {op} option | Left: {len(self.x[op][tick]) - ii}'
+                            await ws.send(json.dumps({'title': title}))
                                 
                 # Final Message to send to client
                 msg = {'x': self.x, 

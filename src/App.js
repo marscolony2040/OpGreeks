@@ -12,7 +12,7 @@ export default class App extends React.Component {
   constructor(){
     super();
 
-    this.state = {response: null, N: 0, tickers: {}, sock: null}
+    this.state = {response: null, N: 0, tickers: {}, sock: null, response_title: 'Refresh'}
     this.vol_plots = this.vol_plots.bind(this)
     this.delta_plots = this.delta_plots.bind(this)
     this.gamma_plots = this.gamma_plots.bind(this)
@@ -30,7 +30,12 @@ export default class App extends React.Component {
     
     const socket = new WebSocket('ws://localhost:8080')
     socket.onmessage = (evt) => {
-      this.setState({ response: JSON.parse(evt.data) })
+      const data = JSON.parse(evt.data)
+      if(data.hasOwnProperty("title")){
+        this.setState({ response_title: data['title'] })
+      } else {
+        this.setState({ response: data, response_title: 'Refresh' })
+      }
     }
     this.setState({ sock: socket })
   }
@@ -481,10 +486,13 @@ export default class App extends React.Component {
         <center>
           <br/>
           <tr>
-            <td style={{backgroundColor: bg, color: 'red', fontSize: 20}}>Call Options</td>&nbsp;&nbsp;
-            <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 20}}>Put Options</td>
+            <td style={{backgroundColor: bg, color: 'red', fontSize: 23}}>Call Options</td>&nbsp;&nbsp;
+            <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 23}}>Put Options</td>
           </tr>
           <br/>
+          <div style={{fontSize: 25}}>
+            {this.state.response_title}
+          </div>
         </center>
         <center>
           <Tabs style={{backgroundColor: bg, color: fg, fontSize: 25}}>

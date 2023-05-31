@@ -6,18 +6,18 @@ def PRINT(x):
             print(round(j, 2), end='\t')
         print()
 
-def p_dn(r, v, dt):
-    top = np.exp(v*np.sqrt(dt/2)) - np.exp(r*dt/2) 
+def p_dn(r, q, v, dt):
+    top = np.exp(v*np.sqrt(dt/2)) - np.exp((r - q)*dt/2) 
     bot = np.exp(v*np.sqrt(dt/2)) - np.exp(-v*np.sqrt(dt/2))
     return pow(top/bot, 2)
 
-def p_up(r, v, dt):
-    top = np.exp(r*dt/2) - np.exp(-v*np.sqrt(dt/2))
+def p_up(r, q, v, dt):
+    top = np.exp((r - q)*dt/2) - np.exp(-v*np.sqrt(dt/2))
     bot = np.exp(v*np.sqrt(dt/2)) - np.exp(-v*np.sqrt(dt/2))
     return pow(top/bot, 2)
 
-def p_m(r, v, dt):
-    return 1 - (p_up(r,v,dt) + p_dn(r,v,dt))
+def p_m(r, q, v, dt):
+    return 1 - (p_up(r,q,v,dt) + p_dn(r,q,v,dt))
 
 
 
@@ -38,9 +38,9 @@ def C(S, K, r, q, v, t, nodes, optype='call'):
     u_ = u(v, dt)
     d_ = d(u_)
 
-    U = p_up(r, v, dt)
-    D = p_dn(r, v, dt)
-    M = p_m(r, v, dt)
+    U = p_up(r, q, v, dt)
+    D = p_dn(r, q, v, dt)
+    M = p_m(r, q, v, dt)
 
 
     ux = 2

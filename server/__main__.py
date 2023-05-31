@@ -196,12 +196,12 @@ class OpServer(Misc):
                     for tick in self.tickers:
                         s = self.stock_price[tick]
                         q = self.dividend[tick]
-
+			
                         self.x[op][tick], self.y[op][tick], self.z[op][tick] = self.strike_filter(tick, op, s)
                         
                         for ii, (strike, mat, vol) in enumerate(zip(self.x[op][tick], self.y[op][tick], self.z[op][tick])):
                             rf = match_rf(mat, self.yields)
-                            
+                            print(rf, q)
                             delta, gamma, theta, vega, rho = GZ(s, strike, rf, q, vol, mat, op)
                             self.delta[op][tick].append(delta)
                             self.gamma[op][tick].append(gamma)

@@ -1,7 +1,7 @@
 # Options Greeks Visualizer
 
 ## Disclaimer
-This program is not designed to be used for trading purposes. It is purely a mathematical parody. The reason why I say this is because the options being imported are American Options and the formulas being used are European Greeks. Simply they are not compatible. You may however pick up greek patterns and compare them to the inputted stocks but remember I am not responsible if you choose to use this application to make trades with. It is not designed for real-time trading.
+This program should in no way, shape, or form be used for actual trading. This program was created for purely Quantitative Finance and Math methods. Plus the data takes long to load in the visualizer, and options greeks fluctuate very quick to be sitting around using this program.
 
 ## Snapshot
 ![alt](https://github.com/marscolony2040/OpGreeks/blob/main/images/pic.png)
@@ -21,5 +21,5 @@ This apps payload is very heavy and will require lots of requests. I would advis
 3. Fetches options chain data in order to extract the expirations list
 4. Sends mass asynchronus request to get all of the options data
 5. Implied volatility and expiry are then used to match the correct treasury rate to the calculations by matching expiry dates
-6. Additionally the dividend yield is imported as well and all of the inputs are pushed through the greek equations.
+6. Additionally the dividend yield is imported as well and all of the inputs are pushed through the trinomial tree and greeks are returned.
 

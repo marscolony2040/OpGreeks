@@ -201,7 +201,7 @@ class OpServer(Misc):
                         
                         for ii, (strike, mat, vol) in enumerate(zip(self.x[op][tick], self.y[op][tick], self.z[op][tick])):
                             rf = match_rf(mat, self.yields)
-                            print(rf, q)
+                          
                             delta, gamma, theta, vega, rho = GZ(s, strike, rf, q, vol, mat, op)
                             self.delta[op][tick].append(delta)
                             self.gamma[op][tick].append(gamma)

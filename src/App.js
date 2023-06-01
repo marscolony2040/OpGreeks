@@ -67,7 +67,7 @@ export default class App extends React.Component {
     for(var i = 0; i < N; i++){
       const namex = "S" + i.toString()
       hold.push(
-        <input name={namex} type="text" onChange={this.change_tick} style={{backgroundColor: fg, color: 'cyan', width: 100, fontSize: 23, textAlign: "center"}}/>
+        <input name={namex} type="text" onChange={this.change_tick} style={{backgroundColor: fg, color: 'black', width: 100, fontSize: 23, textAlign: "center"}}/>
       )
     }
     return hold
@@ -465,9 +465,9 @@ export default class App extends React.Component {
 
   render() {
 
-    const bg = 'white'
-    const fg = 'blue'
-    const fg2 = 'black'
+    const bg = 'black'
+    const fg = 'cyan'
+    const fg2 = 'yellow'
 
 
     return (
@@ -476,11 +476,11 @@ export default class App extends React.Component {
           <img src={title} style={{width: 1000, height: 100}} />
           <div style={{backgroundColor: bg, color: fg, fontSize: 25}}>Number of Stocks</div>
           <br/>
-          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: 'cyan', width: 100, fontSize: 23, textAlign: "center"}}/></div>
+          <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: 'black', width: 100, fontSize: 23, textAlign: "center"}}/></div>
           <br/>
           <div>{this.build_ticks(bg, fg, fg2)}</div>
           <br/>
-          <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 80}}></img>
+          <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 100}}></img>
           <br/>
         </center>
         <center>
@@ -490,9 +490,10 @@ export default class App extends React.Component {
             <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 23}}>Put Options</td>
           </tr>
           <br/>
-          <div style={{fontSize: 25}}>
+          <div style={{color: fg2, fontSize: 25}}>
             {this.state.response_title}
           </div>
+          <br/>
         </center>
         <center>
           <Tabs style={{backgroundColor: bg, color: fg, fontSize: 25}}>

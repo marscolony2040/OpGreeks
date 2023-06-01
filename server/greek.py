@@ -111,7 +111,7 @@ def Rho(S,K,r,q,v,t,nodes,optype):
     C0 = C(S,K,r-dr,q,v,t,nodes,optype=optype)
     return (C1 - C0)/(2*dr)
 
-def Greeks(S,K,r,q,v,t,optype,nodes=8):
+def Greeks(S,K,r,q,v,t,optype,nodes=20):
     delta = Delta(S,K,r,q,v,t,nodes,optype)
     gamma = Gamma(S,K,r,q,v,t,nodes,optype)
     theta = Theta(S,K,r,q,v,t,nodes,optype)

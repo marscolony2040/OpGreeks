@@ -1,10 +1,9 @@
 import numpy as np
 
-def PRINT(x):
-    for i in x:
-        for j in i:
-            print(round(j, 2), end='\t')
-        print()
+nodes = 26
+m, n = int(4*nodes + 2), int(nodes + 1)
+treez = [[0 for j in range(n)] for i in range(m)]
+split = int(m / 2 - 1)
 
 def p_dn(r, q, v, dt):
     top = np.exp(v*np.sqrt(dt/2)) - np.exp((r - q)*dt/2) 
@@ -28,11 +27,8 @@ def u(v, dt):
     return np.exp(v*np.sqrt(2.0*dt))
 
 
-def C(S, K, r, q, v, t, nodes, optype='call'):
-    m, n = int(4*nodes + 2), int(nodes + 1)
+def C(tree, S, K, r, q, v, t, nodes, optype='call'):
     dt = t / nodes
-    tree = [[0 for j in range(n)] for i in range(m)]
-    split = int(m / 2 - 1)
     tree[split][0] = S
 
     u_ = u(v, dt)
@@ -80,49 +76,49 @@ def C(S, K, r, q, v, t, nodes, optype='call'):
     return tree[split + 1][0]
 
 
-def Delta(S,K,r,q,v,t,nodes,optype):
+def Delta(tree,S,K,r,q,v,t,nodes,optype):
     ds = 0.01*S
-    CD = C(S+ds,K,r,q,v,t,nodes,optype=optype)
-    CU = C(S-ds,K,r,q,v,t,nodes,optype=optype)
+    CD = C(tree,S+ds,K,r,q,v,t,nodes,optype=optype)
+    CU = C(tree,S-ds,K,r,q,v,t,nodes,optype=optype)
     return (CD - CU)/(2*ds)
 
-def Gamma(S,K,r,q,v,t,nodes,optype):
+def Gamma(tree,S,K,r,q,v,t,nodes,optype):
     dg = 0.01*S
-    C1 = C(S+dg, K, r, q, v, t, nodes, optype=optype)
-    CX = C(S, K, r, q, v, t, nodes, optype=optype)
-    C0 = C(S-dg, K, r, q, v, t, nodes, optype=optype)
+    C1 = C(tree,S+dg, K, r, q, v, t, nodes, optype=optype)
+    CX = C(tree,S, K, r, q, v, t, nodes, optype=optype)
+    C0 = C(tree,S-dg, K, r, q, v, t, nodes, optype=optype)
     return (C1 - 2.0*CX + C0)/pow(dg, 2)
 
-def Theta(S,K,r,q,v,t,nodes,optype):
+def Theta(tree,S,K,r,q,v,t,nodes,optype):
     dth = 1.0/365.0
-    C1 = C(S,K,r,q,v,t+dth,nodes,optype=optype)
-    C0 = C(S,K,r,q,v,t,nodes,optype=optype)
+    C1 = C(tree,S,K,r,q,v,t+dth,nodes,optype=optype)
+    C0 = C(tree,S,K,r,q,v,t,nodes,optype=optype)
     return -(C1 - C0)/dth
 
-def Vega(S,K,r,q,v,t,nodes,optype):
+def Vega(tree,S,K,r,q,v,t,nodes,optype):
     dv = 0.01
-    C1 = C(S,K,r,q,v+dv,t,nodes,optype=optype)
-    C0 = C(S,K,r,q,v-dv,t,nodes,optype=optype)
+    C1 = C(tree,S,K,r,q,v+dv,t,nodes,optype=optype)
+    C0 = C(tree,S,K,r,q,v-dv,t,nodes,optype=optype)
     return ((C1 - C0)/(2*dv))/100
 
-def Rho(S,K,r,q,v,t,nodes,optype):
+def Rho(tree,S,K,r,q,v,t,nodes,optype):
     dr = 0.01
-    C1 = C(S,K,r+dr,q,v,t,nodes,optype=optype)
-    C0 = C(S,K,r-dr,q,v,t,nodes,optype=optype)
+    C1 = C(tree,S,K,r+dr,q,v,t,nodes,optype=optype)
+    C0 = C(tree,S,K,r-dr,q,v,t,nodes,optype=optype)
     return (C1 - C0)/(2*dr)
 
-def Greeks(S,K,r,q,v,t,optype,nodes=8):
-    delta = Delta(S,K,r,q,v,t,nodes,optype)
-    gamma = Gamma(S,K,r,q,v,t,nodes,optype)
-    theta = Theta(S,K,r,q,v,t,nodes,optype)
-    vega = Vega(S,K,r,q,v,t,nodes,optype)
-    rho = Rho(S,K,r,q,v,t,nodes,optype)
+def Greeks(S,K,r,q,v,t,optype,nodes=nodes):
+    delta = Delta(treez,S,K,r,q,v,t,nodes,optype)
+    gamma = Gamma(treez,S,K,r,q,v,t,nodes,optype)
+    theta = Theta(treez,S,K,r,q,v,t,nodes,optype)
+    vega = Vega(treez,S,K,r,q,v,t,nodes,optype)
+    rho = Rho(treez,S,K,r,q,v,t,nodes,optype)
     if delta > 2 or delta < -2:
         delta = 0
     if gamma > 1 or gamma < -1:
         gamma = 0
     if theta > 0 or theta < -5:
         theta = 0
-    if rho > 1 or rho < -1:
+    if rho > 2 or rho < -2:
         rho = 0
     return delta, gamma, theta, vega, rho

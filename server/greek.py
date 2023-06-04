@@ -97,7 +97,7 @@ def Theta(S,K,r,q,v,t,nodes,optype):
     dth = 1.0/365.0
     C1 = C(S,K,r,q,v,t+dth,nodes,optype=optype)
     C0 = C(S,K,r,q,v,t,nodes,optype=optype)
-    return -(C1 - C0)/(2*dth)
+    return -(C1 - C0)/dth
 
 def Vega(S,K,r,q,v,t,nodes,optype):
     dv = 0.01
@@ -111,7 +111,7 @@ def Rho(S,K,r,q,v,t,nodes,optype):
     C0 = C(S,K,r-dr,q,v,t,nodes,optype=optype)
     return (C1 - C0)/(2*dr)
 
-def Greeks(S,K,r,q,v,t,optype,nodes=20):
+def Greeks(S,K,r,q,v,t,optype,nodes=8):
     delta = Delta(S,K,r,q,v,t,nodes,optype)
     gamma = Gamma(S,K,r,q,v,t,nodes,optype)
     theta = Theta(S,K,r,q,v,t,nodes,optype)

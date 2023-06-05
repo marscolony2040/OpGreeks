@@ -7,12 +7,14 @@ import 'react-tabs/style/react-tabs.css';
 import go from './imgs/go.png'
 import title from './imgs/tx.png'
 
+import Progress_bar from './Progress_bar.js'
+
 export default class App extends React.Component {
   
   constructor(){
     super();
 
-    this.state = {response: null, N: 0, tickers: {}, sock: null, response_title: 'Refresh'}
+    this.state = {colorx: 'limegreen', nx: 0, response: null, N: 0, tickers: {}, sock: null, response_title: 'Refresh'}
     this.vol_plots = this.vol_plots.bind(this)
     this.delta_plots = this.delta_plots.bind(this)
     this.gamma_plots = this.gamma_plots.bind(this)
@@ -32,7 +34,7 @@ export default class App extends React.Component {
     socket.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
       if(data.hasOwnProperty("title")){
-        this.setState({ response_title: data['title'] })
+        this.setState({ response_title: data['title'], colorx: data['color'], color2: data['color2'], nx: data['NX'] })
       } else {
         this.setState({ response: data, response_title: 'Refresh' })
       }
@@ -88,7 +90,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'red'
+                color: 'limegreen'
               },
               name: 'Call Options'
             },
@@ -100,7 +102,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'limegreen'
+                color: 'red'
               },
               name: 'Put Options'
             }]}
@@ -157,7 +159,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'red'
+                color: 'limegreen'
               },
               name: 'Call Options'
             },
@@ -169,7 +171,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'limegreen'
+                color: 'red'
               },
               name: 'Put Options'
             }]}
@@ -226,7 +228,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'red'
+                color: 'limegreen'
               },
               name: 'Gamma Plots'
             }]}
@@ -283,7 +285,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'red'
+                color: 'limegreen'
               },
               name: 'Call Options'
             },
@@ -295,7 +297,7 @@ export default class App extends React.Component {
               mode: 'markers',
               marker: {
                 size: 2,
-                color: 'limegreen'
+                color: 'red'
               },
               name: 'Put Options'
             }]}
@@ -473,25 +475,27 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <center>
-          <img src={title} style={{width: 1000, height: 100}} />
+          <img src={title} style={{width: 1000, height: 100}} onClick={this.handle_submit}/>
           <div style={{backgroundColor: bg, color: fg, fontSize: 25}}>Number of Stocks</div>
           <br/>
           <div><input name="N" type="number" step="1" min="0" value={this.state.N} onChange={this.handle_change} style={{backgroundColor: fg, color: 'black', width: 100, fontSize: 23, textAlign: "center"}}/></div>
           <br/>
           <div>{this.build_ticks(bg, fg, fg2)}</div>
           <br/>
-          <img src={go} alt="gobutton" onClick={this.handle_submit} style={{width: 100, height: 100}}></img>
-          <br/>
+          
         </center>
         <center>
           <br/>
           <tr>
-            <td style={{backgroundColor: bg, color: 'red', fontSize: 23}}>Call Options</td>&nbsp;&nbsp;
-            <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 23}}>Put Options</td>
+            <td style={{backgroundColor: bg, color: 'limegreen', fontSize: 23}}>Call Options</td>&nbsp;&nbsp;
+            <td style={{backgroundColor: bg, color: 'red', fontSize: 23}}>Put Options</td>
           </tr>
           <br/>
-          <div style={{color: fg2, fontSize: 25}}>
+          <div style={{color: fg2, fontSize: 19}}>
             {this.state.response_title}
+          </div>
+          <div>
+            <Progress_bar bgcolor={this.state.colorx} progress={this.state.nx} height={30} fgcolor={this.state.color2}/>
           </div>
           <br/>
         </center>

@@ -192,11 +192,14 @@ class OpServer(Misc):
                     await asyncio.wait([asyncio.ensure_future(self.request(sess, tick, mat=mat)) for mat in self.expire[tick] for tick in self.tickers])
 
                 # Solve for the greeks
+                colur = {'call':['limegreen','black'],'put':['red','white']}
+
                 for op in ('call', 'put'):
                     for tick in self.tickers:
                         s = self.stock_price[tick]
                         q = self.dividend[tick]
 			
+
                         self.x[op][tick], self.y[op][tick], self.z[op][tick] = self.strike_filter(tick, op, s)
                         
                         for ii, (strike, mat, vol) in enumerate(zip(self.x[op][tick], self.y[op][tick], self.z[op][tick])):
@@ -210,7 +213,7 @@ class OpServer(Misc):
                             self.rho[op][tick].append(rho)
 
                             title = f'Parsing {tick} for {op} option | Left: {len(self.x[op][tick]) - ii}'
-                            await ws.send(json.dumps({'title': title}))
+                            await ws.send(json.dumps({'title': title, 'color': colur[op][0], 'color2':colur[op][1], 'NX': round(ii/len(self.x[op][tick])*100, 2)}))
                                 
                 # Final Message to send to client
                 msg = {'x': self.x, 

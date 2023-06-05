@@ -1,6 +1,6 @@
 import numpy as np
 
-nodes = 26
+nodes = 40
 m, n = int(4*nodes + 2), int(nodes + 1)
 treez = [[0 for j in range(n)] for i in range(m)]
 split = int(m / 2 - 1)

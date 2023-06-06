@@ -202,6 +202,7 @@ class OpServer(Misc):
 
                         self.x[op][tick], self.y[op][tick], self.z[op][tick] = self.strike_filter(tick, op, s)
                         
+                        LZ = len(self.x[op][tick])
                         for ii, (strike, mat, vol) in enumerate(zip(self.x[op][tick], self.y[op][tick], self.z[op][tick])):
                             rf = match_rf(mat, self.yields)
                           
@@ -212,8 +213,8 @@ class OpServer(Misc):
                             self.vega[op][tick].append(vega)
                             self.rho[op][tick].append(rho)
 
-                            title = f'Parsing {tick} for {op} option | Left: {len(self.x[op][tick]) - ii}'
-                            await ws.send(json.dumps({'title': title, 'color': colur[op][0], 'color2':colur[op][1], 'NX': round(ii/len(self.x[op][tick])*100, 2)}))
+                            title = f'Parsing {tick} for {op} option | Left: {LZ - ii}'
+                            await ws.send(json.dumps({'title': title, 'color': colur[op][0], 'color2':colur[op][1], 'NX': round(ii/LZ*100, 2)}))
                                 
                 # Final Message to send to client
                 msg = {'x': self.x, 

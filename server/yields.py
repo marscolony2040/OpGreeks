@@ -50,7 +50,7 @@ async def get_yields(session, url):
     async with session.get(url) as resp:
         r = await resp.text()
     s = BeautifulSoup(r, 'html.parser')
-    b = s.find('table', attrs={'class':'views-table views-view-table cols-23'})
+    b = s.find('table', attrs={'class':'usa-table views-table views-view-table cols-23'})
     data = b.text.strip()
     return data
 

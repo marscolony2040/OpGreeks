@@ -29,8 +29,8 @@ export default class App extends React.Component {
   }
   
   componentDidMount(){
-    
-    const socket = new WebSocket('ws://localhost:8080')
+    const url = new URL(window.location.href)
+    const socket = new WebSocket('ws://' + url.hostname + ':8080')
     socket.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
       if(data.hasOwnProperty("title")){
